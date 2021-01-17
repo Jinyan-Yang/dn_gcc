@@ -38,7 +38,7 @@ processImage.new <- function(fn, ROI=NULL){
   
   return(data.frame(filename=fn, GCC=GI, RCC=RI, BCC=BI, RGBtot=rgbtot))
 }
-
+# 
 get_gcc_func <- function(fn, ROI=NULL){
   # path.vec='pic/ng/5/'
 
@@ -84,9 +84,12 @@ get.smooth.gcc.func = function(Date.vec,gcc.vec){
 cal.gcc.site.func <- function(site.nm,ROI){
   site.folders <- list.files(file.path('pic',site.nm))
   
+  # loop through plots
   for(i in seq_along(site.folders)){
+    # define the nm of output file
     out.nm <- sprintf('cache/gcc_%s_%s.rds',site.nm,site.folders[i])
     
+    # check if the output file exists
     if(!file.exists(out.nm)){
       gcc.old.df <- data.frame(filename = NULL,
                                GCC=NULL,
@@ -99,20 +102,26 @@ cal.gcc.site.func <- function(site.nm,ROI){
       gcc.old.df <- readRDS(out.nm)
     }
     
+    # list all photos of the plot
     pic.vec <- list.files(sprintf('pic/%s/%s',site.nm,site.folders[i]),full.names = T)
     
+    # take only those are not prcessed yet
     unprocessed.vec <- setdiff(pic.vec, gcc.old.df$filename)
 
     if(length(unprocessed.vec)>0){
       
+      # loop throught the photos to get gcc
       for(j in seq_along(unprocessed.vec)){
         
+        # calculated GCC
         gcc.new.df <- get_gcc_func(unprocessed.vec[j],ROI = ROI)
         
+        # put old and new gcc together
         gcc.out.df <- rbind(gcc.old.df,gcc.new.df)
         
         saveRDS(gcc.out.df,out.nm)
         
+        # do a print to check prograss 
         print(unprocessed.vec[j])
       }
       
