@@ -59,8 +59,8 @@ get_gcc_func <- function(fn, ROI=NULL){
   gcc.day.df <- do.call(rbind,temp.ls)
   
   # gcc.day.df$DateTime <- as.Date(as.character(date.vec),'%Y%m%d')
-  gcc.day.df$DateTime <- strptime(date.vec,'%Y:%m:%d %H:%M:%S')
-  gcc.day.df$Date <-  as.Date(date.vec,'%Y:%m:%d')
+  gcc.day.df$DateTime <- strptime(as.character(date.vec),'%Y:%m:%d %H:%M:%S')
+  gcc.day.df$Date <-  as.Date(gcc.day.df$DateTime,'%Y:%m:%d')
   
   return(gcc.day.df)
   
@@ -98,8 +98,7 @@ cal.gcc.site.func <- function(site.nm,ROI){
                                RGBtot = NULL,
                                DateTime = NULL,
                                Date = NULL)
-    }else{
-      gcc.old.df <- readRDS(out.nm)
+      saveRDS(gcc.old.df,out.nm)
     }
     
     # list all photos of the plot
@@ -113,12 +112,15 @@ cal.gcc.site.func <- function(site.nm,ROI){
       # loop throught the photos to get gcc
       for(j in seq_along(unprocessed.vec)){
         
+        # get old gcc
+        gcc.old.df <- readRDS(out.nm)
+        
         # calculated GCC
         gcc.new.df <- get_gcc_func(unprocessed.vec[j],ROI = ROI)
         
         # put old and new gcc together
         gcc.out.df <- rbind(gcc.old.df,gcc.new.df)
-        
+ 
         saveRDS(gcc.out.df,out.nm)
         
         # do a print to check prograss 
