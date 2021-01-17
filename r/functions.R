@@ -1,5 +1,5 @@
 fast_load <- function(fn){
-  print(fn)
+  # print(fn)
   
   jpg <- try(jpeg::readJPEG(fn))
   jpg <- aperm(jpg, c(2,1,3))
