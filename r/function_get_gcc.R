@@ -104,6 +104,9 @@ cal.gcc.site.func <- function(site.nm,ROI){
     # list all photos of the plot
     pic.vec <- list.files(sprintf('pic/%s/%s',site.nm,site.folders[i]),full.names = T)
     
+    # get old gcc
+    gcc.old.df <- readRDS(out.nm)
+    
     # take only those are not prcessed yet
     unprocessed.vec <- setdiff(pic.vec, gcc.old.df$filename)
 
@@ -112,11 +115,18 @@ cal.gcc.site.func <- function(site.nm,ROI){
       # loop throught the photos to get gcc
       for(j in seq_along(unprocessed.vec)){
         
-        # get old gcc
-        gcc.old.df <- readRDS(out.nm)
-        
         # calculated GCC
-        gcc.new.df <- get_gcc_func(unprocessed.vec[j],ROI = ROI)
+        gcc.new.df <- try(get_gcc_func(unprocessed.vec[j],ROI = ROI))
+        
+        if(class(gcc.new.df) == 'try-error'){
+          gcc.new.df <- data.frame(filename = unprocessed.vec[j],
+                                  GCC=NA,
+                                  RCC = NA,
+                                  BCC = NA,
+                                  RGBtot = NA,
+                                  DateTime = NA,
+                                  Date = NA)
+        }
         
         # put old and new gcc together
         gcc.out.df <- rbind(gcc.old.df,gcc.new.df)
