@@ -81,8 +81,8 @@ get.smooth.gcc.func = function(Date.vec,gcc.vec){
 }
 
 # 
-cal.gcc.site.func <- function(site.nm,ROI){
-  site.folders <- list.files(file.path('pic',site.nm))
+cal.gcc.site.func <- function(site.nm,ROI,pic.path = 'pic'){
+  site.folders <- list.files(file.path(pic.path,site.nm))
   
   # loop through plots
   for(i in seq_along(site.folders)){
@@ -102,7 +102,7 @@ cal.gcc.site.func <- function(site.nm,ROI){
     }
     
     # list all photos of the plot
-    pic.vec <- list.files(sprintf('pic/%s/%s',site.nm,site.folders[i]),full.names = T)
+    pic.vec <- list.files(sprintf('%s/%s/%s',pic.path,site.nm,site.folders[i]),full.names = T)
     
     # get old gcc
     gcc.old.df <- readRDS(out.nm)
