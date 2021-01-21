@@ -114,10 +114,10 @@ cal.gcc.site.func <- function(site.nm,ROI,pic.path = 'pic'){
       
       # loop throught the photos to get gcc
       for(j in seq_along(unprocessed.vec)){
-        
+        gcc.old.df <- readRDS(out.nm)
         # calculated GCC
         gcc.new.df <- try(get_gcc_func(unprocessed.vec[j],ROI = ROI))
-        
+        # see <-  get_gcc_func(pic.vec[1])
         if(class(gcc.new.df) == 'try-error'){
           gcc.new.df <- data.frame(filename = unprocessed.vec[j],
                                   GCC=NA,

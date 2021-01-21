@@ -1,3 +1,5 @@
+devtools::source_url("https://github.com/Jinyan-Yang/colors/blob/master/R/col.R?raw=TRUE")
+
 plot.gcc.dn.func <- function(folder.nm,
                              site.nm,
                              pic.dim = c(1,1),
@@ -35,7 +37,7 @@ plot.gcc.dn.func <- function(folder.nm,
       
       # hist(gcc.df$RGBtot)
       plot(GCC~Date,data = gcc.df,main = folder.nm[i],
-           pch=16,ylim=c(0.25,0.4),xlab='',xaxt='n')
+           pch=16,ylim=c(0.25,0.4),xlab='',xaxt='n',col=col.df$auLandscape[2])
       
       # plot date
       date.range = range(gcc.df$Date,na.rm=T)
@@ -54,9 +56,9 @@ plot.gcc.dn.func <- function(folder.nm,
       
       # 
       points(gcc.smooth~Date,data = gcc.df,type='l',
-             col='grey',lwd=2)
+             col=col.df$iris[2],lwd=2)
       legend('topleft',legend =treat.vec[i],bty='n')
-      abline(h=0.3,col='salmon')
+      abline(h=0.3,col=col.df$daisy[5])
       
       # plot insert
       # if(plot.photo == TRUE)
