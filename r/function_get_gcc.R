@@ -1,11 +1,13 @@
 source('r/functions.R')
 # modifed from Remko's function
 
-# fn <- 'pic/ng/9/WSCT1262.jpg'
+# fn <- 'pic/qp/2/WSCT2951.jpg'
 
 processImage.new <- function(fn, ROI=NULL){
   
   phot <- read_and_crop(fn,NULL)
+
+  
   if(is.null(phot)){
     return(data.frame(filename=NA, GCC=NA, RCC=NA, BCC=NA, RGBtot=NA))
   }
@@ -20,8 +22,11 @@ processImage.new <- function(fn, ROI=NULL){
     phot <- phot[phot$x >= xmin & phot$x <= xmax &
                    phot$y >= ymin & phot$y <= ymax,]
   }
-  library(raster)
   
+  # filter out white pixels
+  phot[which(phot$R>.9&phot$G>.9&phot$B>.9),c('R','G','B')] <- 0
+  
+  # get GCC
   RDN <- mean(phot$R)
   GDN <- mean(phot$G)
   BDN <- mean(phot$B)
@@ -45,24 +50,39 @@ get_gcc_func <- function(fn, ROI=NULL){
   # reread picture names
   # fn <- list.files(path.vec,pattern = '.JPG',full.names = T)
   # fn = c('download/irrigated/WSCT7365.JPG','download/irrigated/WSCT7366.JPG')
+  # fn = 'pic/mp/1/MFDC0940.JPG'
   
   # get the date
   date.vec <- read_exif(fn)$CreateDate
 
-  # read and calculate gcc
-  temp.ls <- list()
-  for(i in seq_along(fn)){
-    temp.ls[[i]] <- processImage.new(fn[i], ROI=ROI)
+  dateTime.corrected <- strptime(as.character(date.vec),'%Y:%m:%d %H:%M:%S')
+  date.corrected <-  as.Date(gdateTime.corrected,'%Y:%m:%d')
+  
+  if(hour(dateTime.corrected)>6){
+    # read and calculate gcc
+    temp.ls <- list()
+    for(i in seq_along(fn)){
+      temp.ls[[i]] <- processImage.new(fn[i], ROI=ROI)
+    }
+    
+    # put gcc into a data frame
+    gcc.day.df <- do.call(rbind,temp.ls)
+    
+    # gcc.day.df$DateTime <- as.Date(as.character(date.vec),'%Y%m%d')
+    gcc.day.df$DateTime <- strptime(as.character(date.vec),'%Y:%m:%d %H:%M:%S')
+    gcc.day.df$Date <-  as.Date(gcc.day.df$DateTime,'%Y:%m:%d')
+    
+    return(gcc.day.df)
+  }else{
+    return(data.frame(filename = NULL,
+                      GCC=NULL,
+                      RCC = NULL,
+                      BCC = NULL,
+                      RGBtot = NULL,
+                      DateTime = NULL,
+                      Date = NULL)
+           )
   }
-  
-  # put gcc into a data frame
-  gcc.day.df <- do.call(rbind,temp.ls)
-  
-  # gcc.day.df$DateTime <- as.Date(as.character(date.vec),'%Y%m%d')
-  gcc.day.df$DateTime <- strptime(as.character(date.vec),'%Y:%m:%d %H:%M:%S')
-  gcc.day.df$Date <-  as.Date(gcc.day.df$DateTime,'%Y:%m:%d')
-  
-  return(gcc.day.df)
   
 }
 
