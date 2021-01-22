@@ -23,7 +23,6 @@ plot.gcc.dn.func <- function(folder.nm,
       print(fn.out)
       # remove photos that are too dark
       gcc.df <- gcc.df[gcc.df$RGBtot > 300,]
-      gcc.df <- gcc.df[order(gcc.df$Date),]
       # remove photos that are white
       gcc.df[which(gcc.df$GCC == gcc.df$RCC & gcc.df$RCC== gcc.df$BCC),c('GCC','RCC','BCC')] <- NA
       
@@ -43,6 +42,7 @@ plot.gcc.dn.func <- function(folder.nm,
         gcc.df <- gcc.df[gcc.df$Date > as.Date('2019-5-1'),]
       }
       
+      gcc.df <- gcc.df[order(gcc.df$Date),]
       last.photo.nm <- gcc.df$filename[nrow(gcc.df)]
       first.photo.nm <- gcc.df$filename[1]
       

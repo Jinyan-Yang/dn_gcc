@@ -70,17 +70,18 @@ get_gcc_func <- function(fn, ROI=NULL){
     
     # gcc.day.df$DateTime <- as.Date(as.character(date.vec),'%Y%m%d')
     gcc.day.df$DateTime <- strptime(as.character(date.vec),'%Y:%m:%d %H:%M:%S')
+    gcc.day.df$DateTime <- as.POSIXct(gcc.day.df$DateTime)
     gcc.day.df$Date <-  as.Date(gcc.day.df$DateTime,'%Y:%m:%d')
     
     return(gcc.day.df)
   }else{
-    return(data.frame(filename = NULL,
-                      GCC=NULL,
-                      RCC = NULL,
-                      BCC = NULL,
-                      RGBtot = NULL,
-                      DateTime = NULL,
-                      Date = NULL)
+    return(data.frame(filename = fn[i],
+                      GCC=NA,
+                      RCC = NA,
+                      BCC = NA,
+                      RGBtot = NA,
+                      DateTime = NA,
+                      Date = NA)
            )
   }
   
