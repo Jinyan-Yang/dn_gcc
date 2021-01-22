@@ -4,6 +4,7 @@ library(jpeg)
 library(exifr)
 library(doBy)
 library(imager)
+library(lubridate)
 
 source('r/function_get_gcc.R')
 source('r/plot_func.R')
