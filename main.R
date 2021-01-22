@@ -29,3 +29,4 @@ dev.off()
 pdf('figures/ng.gcc.pdf',width = 10,height = 10 * 0.618)
 plot.gcc.dn.func(folder.nm = list.files('pic/ng/'),site.nm = 'ng',plot.photo = T)
 dev.off()
+

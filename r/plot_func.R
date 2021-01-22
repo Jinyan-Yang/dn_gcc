@@ -18,15 +18,29 @@ plot.gcc.dn.func <- function(folder.nm,
     fn.out <- sprintf('cache/gcc_%s_%s.rds',site.nm,folder.nm[i])
     
     if(file.exists(fn.out)){
-      
+      # gcc.df <- readRDS("C:/repo/dn_gcc/cache/gcc_ng_up.rds")
       gcc.df <- readRDS(fn.out)
       print(fn.out)
-      gcc.df <- gcc.df[gcc.df$RGBtot > 200,]
+      # remove photos that are too dark
+      gcc.df <- gcc.df[gcc.df$RGBtot > 300,]
       gcc.df <- gcc.df[order(gcc.df$Date),]
+      # remove photos that are white
+      gcc.df[which(gcc.df$GCC == gcc.df$RCC & gcc.df$RCC== gcc.df$BCC),c('GCC','RCC','BCC')] <- NA
+      
       gcc.df <- gcc.df[!is.na(gcc.df$GCC),]
       
       if(site.nm=='qp'){
         gcc.df <- gcc.df[gcc.df$Date > as.Date('2019-5-27'),]
+      }
+      
+      if(site.nm=='ng'){
+        
+        if(folder.nm[i]=='up'){
+          diff.dates <- as.Date('2019-12-22') - min(gcc.df$Date,na.rm=T )
+          gcc.df$Date[gcc.df$Date < as.Date('2019-5-1')] <-  gcc.df$Date[gcc.df$Date < as.Date('2019-5-1')]+ diff.dates
+        }
+        
+        gcc.df <- gcc.df[gcc.df$Date > as.Date('2019-5-1'),]
       }
       
       last.photo.nm <- gcc.df$filename[nrow(gcc.df)]

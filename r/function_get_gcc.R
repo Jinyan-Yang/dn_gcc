@@ -56,7 +56,7 @@ get_gcc_func <- function(fn, ROI=NULL){
   date.vec <- read_exif(fn)$CreateDate
 
   dateTime.corrected <- strptime(as.character(date.vec),'%Y:%m:%d %H:%M:%S')
-  date.corrected <-  as.Date(gdateTime.corrected,'%Y:%m:%d')
+  date.corrected <-  as.Date(dateTime.corrected,'%Y:%m:%d')
   
   if(hour(dateTime.corrected)>6){
     # read and calculate gcc
