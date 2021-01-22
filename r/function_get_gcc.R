@@ -75,7 +75,7 @@ get_gcc_func <- function(fn, ROI=NULL){
     
     return(gcc.day.df)
   }else{
-    return(data.frame(filename = fn[i],
+    return(data.frame(filename = fn,
                       GCC=NA,
                       RCC = NA,
                       BCC = NA,
