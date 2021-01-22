@@ -23,10 +23,14 @@ plot.gcc.dn.func(list.files('pic/qp/'),site.nm = 'qp',plot.photo = T)
 dev.off()
 
 pdf('figures/ym.gcc.pdf',width = 10,height = 10 * 0.618)
-plot.gcc.dn.func(folder.nm = list.files('pic/ym/'),site.nm = 'ym',plot.photo = T)
+plot.gcc.dn.func(folder.nm = list.files('pic/ym/'),site.nm = 'ym',plot.photo = T,
+                 treat.vec = c('-','c','-','c','-'))
 dev.off()
 
 pdf('figures/ng.gcc.pdf',width = 10,height = 10 * 0.618)
 plot.gcc.dn.func(folder.nm = list.files('pic/ng/'),site.nm = 'ng',plot.photo = T)
 dev.off()
 
+pdf('figures/mp.gcc.pdf',width = 10,height = 10 * 0.618)
+plot.gcc.dn.func(folder.nm = list.files('pic/mp/'),site.nm = 'mp',plot.photo = T)
+dev.off()
