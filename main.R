@@ -26,8 +26,8 @@ pdf('figures/ym.gcc.pdf',width = 10,height = 10 * 0.618)
 # plot.gcc.dn.func(folder.nm = list.files('pic/ym/'),site.nm = 'ym',plot.photo = T,
 #                  treat.vec = c('-','c','-','c','-'))
 
-plot.gcc.dn.func(folder.nm = c("12","18","27","36","45","up"),site.nm = 'ym',plot.photo = T,
-                 treat.vec = c('-','c','-','c','c','landscape'))
+plot.gcc.dn.func(folder.nm = c("12",'14',"18","27","36","45","up"),site.nm = 'ym',plot.photo = T,
+                 treat.vec = c('-',"-",'c','-','c','c','landscape'))
 dev.off()
 
 pdf('figures/ng.gcc.pdf',width = 10,height = 10 * 0.618)
