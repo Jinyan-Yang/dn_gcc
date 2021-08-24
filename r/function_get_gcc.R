@@ -127,7 +127,7 @@ cal.gcc.site.func <- function(site.nm,ROI,pic.path = 'pic'){
     
     # get old gcc
     gcc.old.df <- readRDS(out.nm)
-    
+    gcc.old.df$filename <- gsub('pic',pic.path,gcc.old.df$filename)
     # take only those are not prcessed yet
     unprocessed.vec <- setdiff(pic.vec, gcc.old.df$filename)
 

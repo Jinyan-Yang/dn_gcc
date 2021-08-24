@@ -2,7 +2,7 @@ library(HIEv)
 library(doBy)
 
 startDate <- '2019-05-01'
-endDate <- '2021-01-01'
+endDate <- '2021-03-31'
 
 # get swc for each plot
 swc.ym.df <- downloadTOA5('DNET_AUTO_PM_SOILM_R_',topath = 'download/',
