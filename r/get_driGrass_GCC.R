@@ -13,7 +13,9 @@ cal.gcc.dg.func <- function(site.nm,ROI,pic.path){
   # loop through plots
   for(i in seq_along(site.folders)){
     # define the nm of output file
-    out.nm <- sprintf('cache/driGrass/gcc_%s_%s.rds',site.nm,site.folders[i])
+    out.nm <- sprintf('cache/driGrass/gcc_%s_%s.rds',
+                      site.nm,
+                      site.folders[i])
     
     # check if the output file exists
     if(!file.exists(out.nm)){
@@ -28,7 +30,9 @@ cal.gcc.dg.func <- function(site.nm,ROI,pic.path){
     }
     
     # list all photos of the plot
-    pic.vec <- list.files(sprintf('%s/%s',pic.path,site.folders[i]),full.names = T)
+    pic.vec <- list.files(sprintf('%s/%s',
+                                  pic.path,site.folders[i]),
+                          full.names = T)
     
     # get old gcc
     gcc.old.df <- readRDS(out.nm)

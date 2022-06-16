@@ -8,12 +8,16 @@ library(lubridate)
 
 source('r/function_get_gcc.R')
 source('r/plot_func.R')
-pic.path <- 'pic'
+# pic.path <- 'pic'
+pic.path <- 'E:/storage/DN_FC'
 ROI.in <- c(.2,.8,.2,.8)
 # calculate GCC for site
 cal.gcc.site.func(site.nm='qp',ROI = ROI.in,pic.path = pic.path)
 
 cal.gcc.site.func('ng',ROI = ROI.in,pic.path = pic.path)
+
+
+
 cal.gcc.site.func('mp',ROI = ROI.in,pic.path = pic.path)
 cal.gcc.site.func('ym',ROI = ROI.in,pic.path = pic.path)
 
