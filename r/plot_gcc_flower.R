@@ -9,20 +9,20 @@ treat.info.df <- read.csv('data/TreatmentMaster.csv')
 # 
 treat.info.df <- read.csv('E:/repo/get_drigrass_met/TreatmentMaster.csv')
 # 
-flower.df <- read.csv('cache/driGrass/DRI grass pollinator observatio.csv')
-flower.df$Date <- strptime(flower.df$Date,'%m/%d/%Y')
+flower.df <- read.csv('download/DRIGrassFlowerCountSummary 2021-07-14.csv')
+flower.df$Date <- strptime(flower.df$PhotoDate,'%Y-%m-%d')
 # flower.df$Plot.number
 library(doBy)
 
-flower.daily.plot <- summaryBy(X..flowers~Date+Plot.number,data = flower.df,
+flower.daily.plot <- summaryBy(NumberFlowers~Date+Plot,data = flower.df,
                                FUN = sum,na.rm=T,keep.names = T)
 flower.daily.plot$Date <- as.Date(flower.daily.plot$Date)
 
 flower.daily.plot.trt <- merge(flower.daily.plot,treat.info.df,
-                               by.x='Plot.number',by.y='Plot',all.x=T)
+                               by.x='Plot',by.y='Plot',all.x=T)
 
-flower.daily.plot.mean <- summaryBy(X..flowers~Date + Treatment,data = flower.daily.plot.trt,
-                                    FUN = c(mean,sd,length),keep.names = T)
+flower.daily.plot.mean <- summaryBy(NumberFlowers~Date + Treatment,data = flower.daily.plot.trt,
+                                    FUN = c(mean),keep.names = T,na.rm=T)
 
 flower.daily.plot.mean <- flower.daily.plot.mean[flower.daily.plot.mean$Treatment %in% 
                                                    c('Ambient', 'Drought', 'Frequency'),]
@@ -31,7 +31,7 @@ flower.daily.plot.mean$plot.fac <- as.factor(flower.daily.plot.mean$Treatment)
 # read GCC
 
 tmp.ls <- list()
-plot.vec <- unique(flower.daily.plot.trt$Plot.number)
+plot.vec <- unique(flower.daily.plot.trt$Plot)
 for(plot.i in seq_along(plot.vec)){
   
   fn <- sprintf('cache/driGrass/gcc_driGrass_%s.rds',plot.vec[plot.i])
@@ -96,19 +96,19 @@ legend('topright',legend = unique(gcc.df.trt.mean$Treatment),col=palette(),
 # mtext('2020',side = 1,line=2.5,adj=0.3)
 # par(new=TRUE)
 par(mar=c(5,5,1,1))
-plot(X..flowers.mean~Date,
+plot(NumberFlowers~Date,
      data = flower.daily.plot.mean[flower.daily.plot.mean$plot.fac=='Ambient',],
-     type='b',col=1,pch=16,ylim=c(0,250),xlab='',
+     type='l',col=1,ylim=c(0,50),xlab='',
      xlim=c(as.Date('2019-9-1'),as.Date('2020-12-31')),lwd=3,
      ylab='Number of flowers',xaxt='n')
 
-points(X..flowers.mean~Date,
+points(NumberFlowers~Date,
             data = flower.daily.plot.mean[flower.daily.plot.mean$plot.fac=='Drought',],
-            type='b',col=2,pch=16,lwd=3)
+            type='l',col=2,lwd=3)
 
-points(X..flowers.mean~Date,
+points(NumberFlowers~Date,
        data = flower.daily.plot.mean[flower.daily.plot.mean$plot.fac=='Frequency',],
-       type='b',col=3,pch=16,lwd=3)
+       type='l',col=3,lwd=3)
 
 mons.vec =  seq(as.Date('2019-9-1'),as.Date('2020-12-31'),by='mon')
 
