@@ -100,11 +100,11 @@ plot(date.1st.flower.d.since~date.peak.green.d.since,
      data = plot.date.df,
      pch=16,col=Treatment,
      xlab='Greeness peak',ylab='Flower present')
-legend('topleft',
-       legend = levels(plot.date.df$Treatment),
-       col=palette(),
-       pch=16,bty='n')
-
+# legend('topleft',
+#        legend = levels(plot.date.df$Treatment),
+#        col=palette(),
+#        pch=16,bty='n')
+legend('topleft',legend = '(b)',bty='n')
 fit.lm <- lm(date.1st.flower.d.since~date.peak.green.d.since,
              data = plot.date.df[
                plot.date.df$date.peak.green>as.Date('2020-2-15') & 
@@ -115,5 +115,5 @@ text(x = 235, y = 140, labels = mylabel)
 
 clip(238,275,80,300)
 abline(fit.lm,col='grey',lwd=3)
-legend('topleft',legend = '(b)',bty='n')
+
 dev.off()

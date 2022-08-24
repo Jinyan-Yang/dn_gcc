@@ -1,7 +1,7 @@
 library(HIEv)
 library(doBy)
 
-startDate <- '2019-05-01'
+startDate <- '2019-01-01'
 endDate <- '2021-03-31'
 
 # get swc for each plot
@@ -57,6 +57,10 @@ ros05 <- downloadTOA5("ROS_WS_Table05",
 ros05$PPFD[ros05$PPFD_Avg < 0] <- 0
 ros05$par <- 5*60 * ros05$PPFD_Avg * 10^-6 / 4.57
 
+# # save raw data
+# saveRDS(ros05,'ros05.rds')
+# saveRDS(ros15,'ros15.rds')
+# saveRDS(swc.ym.all.df,'ym.swc.rds')
 library(data.table)
 ros.day.1.df <- data.table(ros05)[,list(PAR = sum(par, na.rm=TRUE),
                                         Tair=mean(AirTC_Avg, na.rm=TRUE),
